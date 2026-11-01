@@ -17,7 +17,7 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 
 - [x] Fresh Laravel install, PHP/Node versions pinned
 - [x] Tailwind + Vite + Alpine setup (assets built locally, built files committed/uploaded; no Node on server)
-- [ ] Install Filament admin panel
+- [x] Install Filament admin panel
 - [x] .env.example, config cleanup, timezone, app name
 - [ ] Code style (Pint), basic CI check (optional)
 - [x] Settings system: settings table, Setting service, setting() helper, cache + bust
@@ -30,12 +30,12 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 
 ## Phase 2 - Admin Core (CURRENT)
 
-- [ ] Admin auth + seeded super admin
-- [ ] Admin layout/navigation
-- [ ] Brand Colors page (live preview, reset default)
-- [ ] Business & Connect Info page (grouped tabs)
-- [ ] Loader settings (image upload, toggle, bg color, min time)
-- [ ] SEO defaults
+- [x] Admin auth + seeded super admin (account created locally; credentials remain untracked)
+- [x] Admin layout/navigation
+- [x] Brand Colors page (live preview, reset default)
+- [x] Business & Connect Info page (grouped tabs)
+- [x] Loader settings (image upload, toggle, bg color, min time)
+- [x] SEO defaults
       DoD: editing colors/business info/loader in admin updates the front layout with no code change.
 
 ## Phase 3 - Catalog
