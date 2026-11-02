@@ -23,10 +23,23 @@
         </button>
     </div>
 
-    <nav id="mobile-navigation" class="mobile-nav" x-show="open" x-cloak x-transition @click.outside="open = false" @keydown.escape.window="open = false" aria-label="Mobile navigation">
+    <nav id="mobile-navigation" class="mobile-nav" x-show="open" x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+        x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+        @click.outside="open = false" @keydown.escape.window="open = false" aria-label="Mobile navigation">
+        <div class="mobile-nav__heading">
+            <span class="eyebrow">Explore</span>
+            <strong>Discover Deshmaya</strong>
+        </div>
         @foreach(config('site.menu') as $item)
             @if($item['enabled'] && $item['route'])
-                <a href="{{ route($item['route']) }}" @click="open = false" @class(['mobile-nav__link', 'is-active' => request()->routeIs($item['route'])])>{{ $item['label'] }}</a>
+                <a href="{{ route($item['route']) }}" @click="open = false" @class(['mobile-nav__link', 'is-active' => request()->routeIs($item['route'])]) @if(request()->routeIs($item['route'])) aria-current="page" @endif>
+                    <span>{{ $item['label'] }}</span><span class="mobile-nav__arrow" aria-hidden="true">→</span>
+                </a>
             @endif
         @endforeach
         <a href="{{ route('request-quote') }}" class="button button--primary mobile-nav__cta" @click="open = false">Request a Quote <span aria-hidden="true">→</span></a>
