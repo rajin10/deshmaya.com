@@ -31,7 +31,91 @@ class PublicPagesTest extends TestCase
             $this->assertStringContainsString('rel="canonical"', $html);
             $this->assertStringContainsString('property="og:url"', $html);
             $this->assertStringContainsString('name="description"', $html);
+            $this->assertStringContainsString('"@type":"Organization"', $html);
         }
+    }
+
+    public function test_robots_and_sitemap_include_public_routes_and_active_catalog_items(): void
+    {
+        $category = Category::create([
+            'name' => 'Fruits',
+            'slug' => 'fruits',
+            'parent_id' => Category::create([
+                'name' => 'Produce',
+                'slug' => 'produce',
+                'is_active' => true,
+            ])->id,
+            'is_active' => true,
+        ]);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Fresh Mango',
+            'slug' => 'fresh-mango',
+            'is_active' => true,
+        ]);
+        Product::create([
+            'category_id' => $category->id,
+            'name' => 'Hidden Mango',
+            'slug' => 'hidden-mango',
+            'is_active' => false,
+        ]);
+
+        $this->get(route('robots'))
+            ->assertOk()
+            ->assertSee('Disallow: /admin')
+            ->assertSee(route('sitemap'));
+
+        $this->get(route('sitemap'))
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
+            ->assertSee(route('home'), false)
+            ->assertSee(route('products.category', $category->slug), false)
+            ->assertSee(route('products.show', $product->slug), false)
+            ->assertDontSee('hidden-mango');
+    }
+
+    public function test_public_product_page_includes_product_structured_data(): void
+    {
+        $category = Category::create([
+            'name' => 'Fruits',
+            'slug' => 'fruits',
+            'is_active' => true,
+        ]);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Fresh Mango',
+            'slug' => 'fresh-mango',
+            'short_description' => 'Export quality mango.',
+            'is_active' => true,
+        ]);
+
+        $this->get(route('products.show', $product->slug))
+            ->assertOk()
+            ->assertSee('"@type":"Product"', false)
+            ->assertSee('"name":"Fresh Mango"', false);
+    }
+
+    public function test_public_pages_have_security_headers_and_https_hsts(): void
+    {
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertHeader('X-Content-Type-Options', 'nosniff')
+            ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
+            ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+            ->assertHeaderMissing('Strict-Transport-Security');
+
+        $this->get('https://localhost/')
+            ->assertOk()
+            ->assertHeader('Strict-Transport-Security', 'max-age=31536000');
+    }
+
+    public function test_custom_not_found_and_server_error_views_render(): void
+    {
+        $this->get('/page-that-does-not-exist')
+            ->assertNotFound()
+            ->assertSee('Page not found');
+
+        $this->assertStringContainsString('Something went wrong', view('errors.500')->render());
     }
 
     public function test_products_list_and_single_product_details_are_dynamic(): void

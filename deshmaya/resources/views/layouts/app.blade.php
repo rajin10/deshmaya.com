@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     @include('partials.head')
+    @include('partials.schema')
 </head>
 <body>
     <a class="skip-link" href="#content">Skip to content</a>

@@ -63,7 +63,7 @@ Backend phases (0-4) do not need page designs. Phase 6 implementation may use th
 - [x] Animation kit: scroll reveal, hover effects, smooth scrolling, reduced-motion support, page transitions
       DoD: shell matches design at all breakpoints; components documented in ARCHITECTURE.md.
 
-## Phase 6 - Pages (CURRENT - implementation and responsive smoke audit done; final visual QA pending)
+## Phase 6 - Pages (implementation and responsive smoke audit done; final visual QA pending)
 
 - [x] 6.1 Home implementation
 - [x] 6.2 About Us implementation
@@ -82,15 +82,19 @@ Backend phases (0-4) do not need page designs. Phase 6 implementation may use th
       DoD per page: implementation and technical smoke checks are complete; PAGE_WORKFLOW.md visual/assets checklist must be completed after assets and responsive references are supplied.
       Note: Current reference is one composite image. No approved original photography, map artwork, or individual responsive frames were available; placeholders remain intentional and are not final artwork.
 
-## Phase 7 - Performance, QA, SEO
+## Phase 7 - Performance, QA, SEO (CURRENT - started; see open work below)
 
 - [ ] Lighthouse mobile/desktop >= targets on every page
 - [ ] Cross-device test matrix (iOS Safari, Android Chrome, desktop browsers)
 - [ ] Accessibility pass, contrast check against brand colors
-- [ ] Sitemap, robots, schema, 404/500 pages
-- [ ] Security pass (headers, upload rules, admin hardening)
+- [~] Sitemap, robots, schema, 404/500 pages (dynamic sitemap and robots, Organization/Product JSON-LD, and branded 404/500 views implemented and feature-tested; validate production URL/indexing behavior before completion)
+- [~] Security pass (baseline response headers added; review upload rules and admin hardening remains)
 - [ ] 4K image upload stress test via admin (check PHP memory_limit and upload size on cPanel)
       DoD: all targets in PRD section 8 met.
+      Phase 6 dependency: approved photography and responsive design frames are still needed for final visual sign-off and meaningful image-weight/Lighthouse validation. Phase 7 has started in parallel by request; Phase 6 remains open.
+      Remaining QA includes Lighthouse on every page after final media, iOS/Android/desktop browser matrix, keyboard/screen-reader/contrast checks, production sitemap/schema checks, security review, and cPanel 4K upload stress test using confirmed server limits.
+      Current validation: 41 tests / 266 assertions pass; production asset build and targeted Pint pass. No source images were present, so the build optimized 0 images; this is not a Lighthouse result.
+      Existing upload limits found: category/product media 10 MiB per file (gallery up to 20 files), logo/favicon/loader 4 MiB, and Open Graph image 8 MiB. Confirm these against cPanel PHP/web-server limits and the approved 4K originals before the upload stress test.
 
 ## Phase 8 - Deployment and Handover
 
@@ -101,3 +105,40 @@ Backend phases (0-4) do not need page designs. Phase 6 implementation may use th
 - [ ] Backups + monitoring
 - [ ] Admin guide (short) + credentials handover
       DoD: live, backed up, client can operate admin alone.
+
+## Resume checklist (next work session)
+
+Do not treat the started Phase 7 code as complete or production-ready. Current Phase 7 changes are uncommitted unless a later progress entry says otherwise. Keep secrets out of Git and documentation.
+
+### First: finish Phase 6 visual sign-off
+
+1. Collect approved/licensed photos for each slot in `PAGE_WORKFLOW.md`, final logo/favicon, and map/certification artwork or written confirmation that none is required.
+2. Supply individual responsive design frames for all ten public page groups; specify each frame's target viewport and confirm fonts, copy, image crop/focal point, and branding.
+3. Replace placeholders, optimize/process images, verify alt text and responsive crops, then run the route/viewport smoke audit again.
+4. Compare each page against its supplied frames, record issues/fixes and approvals in the `PAGE_WORKFLOW.md` sign-off table.
+
+### Then: finish Phase 7
+
+1. Run automated tests, production asset build, Pint, and `git diff --check`; retain the current baseline of 41 tests / 266 assertions unless tests intentionally change.
+2. With the final media and production-like URL configured, run Lighthouse mobile and desktop on every public page and product/category route. Record Performance score and LCP, CLS, INP; meet PRD targets (Performance >= 90, LCP < 2.5s, CLS < 0.1, INP < 200ms). Fix and retest failures.
+3. Verify `robots.txt`, XML sitemap syntax/content, canonical URLs, Organization/Product JSON-LD, OG images, and 404/500 behavior on staging/production-like host. Ensure sitemap contains only active public pages/products/categories and that its URLs use the canonical host.
+4. Test current Chrome/Edge/Firefox and Safari where available, including iOS Safari and Android Chrome, at the relevant device sizes. Record browser/device/OS and failures.
+5. Complete keyboard-only and screen-reader spot checks, visible focus, labels/errors, heading order, image alternatives, reduced-motion behavior, and WCAG AA text/UI contrast; record findings and fixes.
+6. Review security end-to-end: headers/HSTS behind the actual HTTPS proxy, CSRF, form throttle/honeypot/captcha, admin auth/authorization/session behavior, upload validation (MIME/type/size), exposed files, dependency advisories, and error/debug leakage. Do not add a restrictive CSP until all required inline scripts and third-party integrations are inventoried and tested.
+7. Before a 4K upload test, obtain cPanel PHP/web-server limits (`upload_max_filesize`, `post_max_size`, `memory_limit`, execution time), PHP extensions (GD/Imagick), disk quota, and queue/cron behavior. Current app limits: product/category media 10 MiB/file, gallery max 20 files, logo/favicon/loader 4 MiB, OG image 8 MiB. Confirm or deliberately revise these limits before testing representative 4K files through the admin and verifying conversions, queue completion, storage, and site stability.
+
+### Finally: Phase 8 deployment/handover
+
+1. Obtain the production domain, cPanel/PHP/database/SMTP configuration, notification address, Turnstile keys, admin account owner, and backup/monitoring contact through a secure channel; never commit secrets.
+2. Follow `DEPLOYMENT_CPANEL.md`: provision document root and environment, deploy built assets, configure database/storage permissions, run reviewed migrations, and configure scheduler/queue cron.
+3. Enable AutoSSL/HTTPS and verify canonical/sitemap URLs and HSTS on the real host; configure optional CDN only if approved.
+4. Run production smoke checks for public pages, forms/mail queue, admin access, media uploads, sitemap/robots, 404/500, backups and restore procedure; confirm debug is disabled.
+5. Deliver admin instructions and credentials securely, and obtain owner confirmation that they can manage products/settings and submissions.
+
+### Inputs needed from the project owner
+
+- Approved image files and page/slot mapping; responsive design frames and their target widths.
+- Production domain and authorized staging/production access.
+- cPanel PHP version/extensions/limits and available SSH/cron access.
+- SMTP settings, Turnstile site/secret keys, admin notification email, and analytics/third-party requirements.
+- Confirmation of sitemap indexing policy, map/embed choice, and who receives admin credentials.

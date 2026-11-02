@@ -4,8 +4,12 @@ use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuoteRequestController;
+use App\Http\Controllers\SeoController;
 use App\Http\Middleware\DiscardHoneypotSubmission;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 
 Route::get('/', HomeController::class)->name('home');
 Route::view('/about-us', 'pages.about')->name('about');

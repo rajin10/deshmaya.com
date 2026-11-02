@@ -48,6 +48,8 @@ Provide approved/licensed originals and identify the intended page/slot. Keep or
 - Supply individual page/section design frames for desktop, laptop/tablet, and mobile breakpoints (or specify the exact widths represented by each frame).
 - Confirm fonts, exact copy, spacing, crop/focal point, logo variants, and any map/certification artwork not discernible from the composite.
 - After receipt, record reference filenames/links, review date, viewport, differences found, fixes, and approval for each page in the sign-off table below.
+- Do not mark visual QA complete based only on the current 77 route/viewport smoke checks; they test rendering/overflow/metadata, not pixel fidelity.
+- Once assets are added, rerun the smoke checks and production build. Lighthouse is deferred until final media is present so image weight/LCP results are representative.
 
 | Page | Asset slots replaced | Responsive frames reviewed | Visual differences/fixes | Sign-off |
 |---|---|---|---|---|
@@ -61,6 +63,14 @@ Provide approved/licensed originals and identify the intended page/slot. Keep or
 | Export Markets | Pending | Pending | Pending | Pending |
 | Contact Us | Pending | Pending | Pending | Pending |
 | Request a Quote | Pending | Pending | Pending | Pending |
+
+## Resume procedure
+
+1. Map each supplied approved asset to a row in the asset register and add/reference the filenames; preserve originals and do not commit secrets or unlicensed imagery.
+2. Replace the matching placeholders/media, run image processing, and verify dimensions, responsive crop/focal point, alt text, and loading priority.
+3. For each page row, compare every provided viewport frame side-by-side; record viewport, differences, fixes, and approval.
+4. Run Lighthouse mobile/desktop only after final imagery is in place; record scores and Core Web Vitals in the page sign-off notes.
+5. Update `PHASES.md` and `PROGRESS_LOG.md`; leave any page without approved frames/assets visibly pending.
 
 ## Per-page Definition of Done
 - [ ] Matches supplied page design on mobile, tablet, laptop, desktop (requires responsive frames)

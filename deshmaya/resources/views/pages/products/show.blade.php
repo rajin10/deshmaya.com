@@ -1,6 +1,27 @@
 @extends('layouts.app')
 @section('title', $product->seo_title ?: $product->name)
 @section('description', $product->seo_description ?: $product->short_description)
+@push('head')
+    @php
+        $productImages = $product->getMedia('featured')->merge($product->getMedia('gallery'))
+            ->map(fn ($media) => $media->getUrl('preview') ?: $media->getUrl())
+            ->values()
+            ->all();
+        $productSchema = array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $product->name,
+            'description' => $product->seo_description ?: $product->short_description,
+            'category' => $product->category?->name,
+            'image' => $productImages ?: null,
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => setting('general.site_name', 'Deshmaya'),
+            ],
+        ], fn ($value) => $value !== null && $value !== '');
+    @endphp
+    <script type="application/ld+json">@json($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
+@endpush
 @section('content')
 <x-page-banner :title="$product->name" :subtitle="$product->short_description" tone="produce" :show-breadcrumb="false" />
 
