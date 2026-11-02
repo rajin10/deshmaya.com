@@ -29,6 +29,7 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
       DoD: changing a setting in DB changes layout output; a test image renders responsive and lazy.
 
 ## Phase 2 - Admin Core (CURRENT)
+## Phase 2 - Admin Core
 
 - [x] Admin auth + seeded super admin (account created locally; credentials remain untracked)
 - [x] Admin layout/navigation
@@ -40,13 +41,13 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 
 ## Phase 3 - Catalog
 
-- [ ] categories migration/model/admin CRUD + reorder
-- [ ] products migration/model/admin CRUD (gallery, specs, SEO, featured)
-- [ ] Slug handling, soft deletes, validation
-- [ ] Seeders with sample categories/products
+- [x] categories migration/model/admin CRUD + reorder
+- [x] products migration/model/admin CRUD (gallery, specs, SEO, featured)
+- [x] Slug handling, soft deletes, validation
+- [x] Seeders with sample categories/products
       DoD: admin can add/edit/delete categories and products; data available through query scopes.
 
-## Phase 4 - Forms and Submissions
+## Phase 4 - Forms and Submissions (CURRENT)
 
 - [ ] contact_messages + quote_requests tables/models
 - [ ] Form request validation, honeypot, throttle, captcha
