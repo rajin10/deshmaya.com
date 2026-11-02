@@ -23,7 +23,7 @@
         </button>
     </div>
 
-    <nav id="mobile-navigation" class="mobile-nav" x-show="open" x-cloak x-transition @click.outside="open = false" aria-label="Mobile navigation">
+    <nav id="mobile-navigation" class="mobile-nav" x-show="open" x-cloak x-transition @click.outside="open = false" @keydown.escape.window="open = false" aria-label="Mobile navigation">
         @foreach(config('site.menu') as $item)
             @if($item['enabled'] && $item['route'])
                 <a href="{{ route($item['route']) }}" @click="open = false" @class(['mobile-nav__link', 'is-active' => request()->routeIs($item['route'])])>{{ $item['label'] }}</a>

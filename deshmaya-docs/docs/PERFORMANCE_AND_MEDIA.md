@@ -8,6 +8,8 @@ Lighthouse mobile >= 90, LCP < 2.5s, CLS < 0.1, INP < 200ms, page weight < 1.5MB
 - <x-picture> outputs <picture>, srcset, sizes, width/height (no CLS), lazy + async decode.
 - Hero/LCP image: eager, fetchpriority=high, preloaded.
 - Blur-up or dominant color placeholder.
+- Keep labeled Phase 6 placeholders until approved source assets are delivered; never use unrelated substitute imagery. Track each required image/map asset in `PAGE_WORKFLOW.md`.
+- After assets are supplied, verify focal point/crop and alt text per page, run the image optimizer, then repeat Lighthouse and visual QA. A successful current build optimized 0 images because no source images were present.
 
 ## Video
 Deferred, not in v1. Keep layouts flexible so a lazy-loaded video component can be added later.

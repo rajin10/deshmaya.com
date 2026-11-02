@@ -35,7 +35,7 @@
         <x-section-heading eyebrow="Markets of focus" title="Expanding across global markets" description="We welcome inquiries from buyers in established and emerging destinations." center />
         <div class="market-list">
             @foreach(['Malaysia', 'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Oman', 'Kuwait'] as $market)
-                <div class="market-list__item"><span class="market-list__mark" aria-hidden="true">◎</span><strong>{{ $market }}</strong></div>
+                <div class="market-list__item" data-reveal><span class="market-list__mark" aria-hidden="true">◎</span><strong>{{ $market }}</strong></div>
             @endforeach
         </div>
     </div>

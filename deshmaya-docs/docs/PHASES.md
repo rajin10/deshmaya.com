@@ -1,7 +1,7 @@
 # Phases and Tracker
 
 Status keys: [ ] todo, [~] in progress, [x] done. Mark ONE phase as CURRENT.
-Backend phases (0-4) do not need page designs. Page phases (6.x) start only when that page's design is provided.
+Backend phases (0-4) do not need page designs. Phase 6 implementation may use the supplied composite mockup; page-level visual sign-off requires approved assets and responsive references.
 
 ## Phase 0 - Planning and Setup
 
@@ -63,20 +63,24 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 - [x] Animation kit: scroll reveal, hover effects, smooth scrolling, reduced-motion support, page transitions
       DoD: shell matches design at all breakpoints; components documented in ARCHITECTURE.md.
 
-## Phase 6 - Pages (CURRENT - mockup implemented; photography and visual QA pending)
+## Phase 6 - Pages (CURRENT - implementation and responsive smoke audit done; final visual QA pending)
 
-- [~] 6.1 Home
-- [~] 6.2 About Us
-- [~] 6.3 Our Products (listing + category filter)
-- [~] 6.4 Dynamic Single Product
-- [~] 6.5 Certification
-- [~] 6.6 How We Export
-- [~] 6.7 Export Markets
-- [~] 6.8 Contact Us
-- [~] 6.9 Request a Quote
-- [~] Quality & Packaging (additional page shown in the supplied mockup)
-      DoD per page: PAGE_WORKFLOW.md checklist fully ticked.
-      Note: The supplied design is a single composite image. Layouts are implemented from it; labeled photo placeholders remain until original photography is supplied. Responsive and page-by-page visual comparison is still pending.
+- [x] 6.1 Home implementation
+- [x] 6.2 About Us implementation
+- [x] 6.3 Our Products implementation (listing + category filter)
+- [x] 6.4 Dynamic Single Product implementation
+- [x] 6.5 Certification implementation
+- [x] 6.6 How We Export implementation
+- [x] 6.7 Export Markets implementation
+- [x] 6.8 Contact Us implementation
+- [x] 6.9 Request a Quote implementation
+- [x] Quality & Packaging implementation (additional page shown in the supplied mockup)
+- [x] Route/viewport smoke audit: 11 public route variants x 7 widths (360, 390, 768, 1024, 1280, 1440, 1920); all HTTP 200, no horizontal overflow, one H1 and canonical/OG URL metadata per route, no browser-console errors
+- [x] Mobile menu interaction check, including Escape-to-close
+- [~] Replace all image placeholders with approved assets; asset locations and page-by-page slots are tracked in PAGE_WORKFLOW.md
+- [~] Compare each page/section against supplied visuals at each provided responsive frame; record gaps and sign-off in PAGE_WORKFLOW.md
+      DoD per page: implementation and technical smoke checks are complete; PAGE_WORKFLOW.md visual/assets checklist must be completed after assets and responsive references are supplied.
+      Note: Current reference is one composite image. No approved original photography, map artwork, or individual responsive frames were available; placeholders remain intentional and are not final artwork.
 
 ## Phase 7 - Performance, QA, SEO
 

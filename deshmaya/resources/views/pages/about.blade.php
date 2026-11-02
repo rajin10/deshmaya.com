@@ -21,12 +21,12 @@
     <div class="container-shell">
         <x-section-heading eyebrow="Our foundation" title="Our Mission & Vision" center />
         <div class="value-grid value-grid--two">
-            <article class="value-card">
+            <article class="value-card" data-reveal>
                 <span class="value-card__icon" aria-hidden="true">◎</span>
                 <h3>Our Mission</h3>
                 <p>To connect Bangladesh’s agricultural excellence with global markets through responsible sourcing, dependable quality and reliable export service.</p>
             </article>
-            <article class="value-card">
+            <article class="value-card" data-reveal>
                 <span class="value-card__icon" aria-hidden="true">↗</span>
                 <h3>Our Vision</h3>
                 <p>To become a trusted global partner, known for the freshness, care and consistency we bring to every shipment.</p>
@@ -45,7 +45,7 @@
                 ['icon' => '◎', 'title' => 'Global Reach', 'text' => 'A responsive approach to international markets.'],
                 ['icon' => '♧', 'title' => 'Sustainable Future', 'text' => 'Respect for the people and resources behind every harvest.'],
             ] as $value)
-                <article class="value-card">
+                <article class="value-card" data-reveal>
                     <span class="value-card__icon" aria-hidden="true">{{ $value['icon'] }}</span>
                     <h3>{{ $value['title'] }}</h3>
                     <p>{{ $value['text'] }}</p>

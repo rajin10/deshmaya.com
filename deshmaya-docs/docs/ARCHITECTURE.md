@@ -43,4 +43,5 @@ docs/
 ## Supplied design reference
 - The composite mockup supplied on 2026-11-02 is the visual reference for the shared shell and all depicted public pages, including Quality & Packaging.
 - Original photography and individual responsive frames were not included. `x-image-placeholder` marks image slots that must be replaced with approved photos; do not treat the gradient placeholders as final artwork.
-- Responsive layouts are implemented from the composite and still need final side-by-side review at the widths listed in `PAGE_WORKFLOW.md`.
+- Phase 6 added canonical/Open Graph URL metadata, a single semantic H1 on product detail, progressive enhancement that keeps content visible when JavaScript fails, reduced-motion-safe reveal hooks, and Escape-key handling for the mobile menu.
+- Responsive layouts are implemented from the composite. The 77 route/viewport technical smoke checks passed, but final side-by-side visual review and Lighthouse checks remain pending until approved assets and individual responsive frames are supplied; see `PAGE_WORKFLOW.md`.

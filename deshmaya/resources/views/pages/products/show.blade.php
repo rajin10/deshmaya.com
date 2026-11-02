@@ -16,7 +16,7 @@
             @php($featuredImage = $product->getFirstMediaUrl('featured', 'preview') ?: $product->getFirstMediaUrl('featured'))
             <div class="product-detail__visual">
                 @if($featuredImage)
-                    <img class="product-detail__main-image" src="{{ $featuredImage }}" alt="{{ $product->name }}" fetchpriority="high">
+                    <img class="product-detail__main-image" src="{{ $featuredImage }}" alt="{{ $product->name }}" loading="eager" decoding="async" fetchpriority="high">
                 @else
                     <x-image-placeholder class="product-detail__main-image" :label="$product->name.' photo pending'" />
                 @endif
@@ -36,7 +36,7 @@
             </div>
             <div class="product-detail__copy">
                 <p class="eyebrow">{{ $product->category?->name ?? 'Fresh produce' }}</p>
-                <h1>{{ $product->name }}</h1>
+                <h2>{{ $product->name }}</h2>
                 @if($product->short_description)<p class="product-detail__intro">{{ $product->short_description }}</p>@endif
                 @if($product->description)<p class="prose-copy">{{ $product->description }}</p>@endif
 

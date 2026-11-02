@@ -14,7 +14,7 @@
                 ['icon' => '✓', 'title' => 'Quality Records', 'text' => 'Product checks and shipment details prepared to meet agreed specifications.'],
                 ['icon' => '◎', 'title' => 'Destination Standards', 'text' => 'Buyer and market requirements reviewed during order preparation.'],
             ] as $item)
-                <article class="value-card value-card--certificate">
+                <article class="value-card value-card--certificate" data-reveal>
                     <span class="value-card__icon" aria-hidden="true">{{ $item['icon'] }}</span>
                     <h3>{{ $item['title'] }}</h3>
                     <p>{{ $item['text'] }}</p>

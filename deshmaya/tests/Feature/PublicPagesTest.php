@@ -21,6 +21,19 @@ class PublicPagesTest extends TestCase
         $this->get(route('quality-packaging'))->assertOk()->assertSeeText('Quality & Packaging');
     }
 
+    public function test_static_pages_have_single_main_heading_and_seo_metadata(): void
+    {
+        foreach (['home', 'about', 'products.index', 'certification', 'quality-packaging', 'how-we-export', 'export-markets', 'contact', 'request-quote'] as $routeName) {
+            $response = $this->get(route($routeName))->assertOk();
+            $html = $response->getContent();
+
+            $this->assertSame(1, preg_match_all('/<h1(?:\s|>)/i', $html));
+            $this->assertStringContainsString('rel="canonical"', $html);
+            $this->assertStringContainsString('property="og:url"', $html);
+            $this->assertStringContainsString('name="description"', $html);
+        }
+    }
+
     public function test_products_list_and_single_product_details_are_dynamic(): void
     {
         $parentCategory = Category::create([
@@ -55,11 +68,13 @@ class PublicPagesTest extends TestCase
             ->assertSee('Fresh Mango')
             ->assertSee('Premium seasonal mangoes for export.');
 
-        $this->get(route('products.show', $product->slug))
+        $productResponse = $this->get(route('products.show', $product->slug))
             ->assertOk()
             ->assertSee('Selected and packed to buyer requirements.')
             ->assertSee('Bangladesh')
             ->assertSee(route('request-quote', ['product' => $product->slug]), false);
+
+        $this->assertSame(1, preg_match_all('/<h1(?:\s|>)/i', $productResponse->getContent()));
     }
 
     public function test_inactive_products_are_not_publicly_visible(): void

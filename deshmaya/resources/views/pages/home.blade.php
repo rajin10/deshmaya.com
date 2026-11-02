@@ -107,7 +107,7 @@
                 ['icon' => '♧', 'title' => 'Reliable Supply', 'text' => 'Clear communication from order to shipment.'],
                 ['icon' => '◎', 'title' => 'Global Logistics', 'text' => 'Coordinated handling for international delivery.'],
             ] as $benefit)
-                <article class="benefit-card">
+                <article class="benefit-card" data-reveal>
                     <span class="benefit-card__icon" aria-hidden="true">{{ $benefit['icon'] }}</span>
                     <h3>{{ $benefit['title'] }}</h3>
                     <p>{{ $benefit['text'] }}</p>

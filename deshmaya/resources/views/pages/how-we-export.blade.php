@@ -17,7 +17,7 @@
                 ['number' => '06', 'icon' => '▱', 'title' => 'Shipment', 'text' => 'Transport and dispatch are arranged with clear updates.'],
                 ['number' => '07', 'icon' => '↗', 'title' => 'Delivery', 'text' => 'Your shipment travels to its agreed destination.'],
             ] as $step)
-                <li class="process-card">
+                <li class="process-card" data-reveal>
                     <span class="process-card__number">{{ $step['number'] }}</span>
                     <span class="process-card__icon" aria-hidden="true">{{ $step['icon'] }}</span>
                     <h3>{{ $step['title'] }}</h3>

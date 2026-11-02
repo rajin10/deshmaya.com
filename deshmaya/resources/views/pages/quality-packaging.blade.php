@@ -14,7 +14,7 @@
                 ['title' => 'Cleaning', 'text' => 'Preparation and handling are arranged with product care in mind.', 'tone' => 'quality'],
                 ['title' => 'Packing', 'text' => 'Packaging formats are discussed to support the product and journey.', 'tone' => 'shipping'],
             ] as $stage)
-                <article class="quality-card hover-lift">
+                <article class="quality-card hover-lift" data-reveal>
                     <x-image-placeholder class="quality-card__image" :label="$stage['title'].' process photo pending'" :tone="$stage['tone']" />
                     <div class="quality-card__body"><h3>{{ $stage['title'] }}</h3><p>{{ $stage['text'] }}</p></div>
                 </article>

@@ -4,7 +4,7 @@
     $image = $product->getFirstMediaUrl('featured', 'preview') ?: $product->getFirstMediaUrl('featured');
 @endphp
 
-<article class="product-card hover-lift">
+<article class="product-card hover-lift" data-reveal>
     <a class="product-card__image-link" href="{{ route('products.show', $product->slug) }}" aria-label="View {{ $product->name }}">
         @if($image)
             <img class="product-card__image" src="{{ $image }}" alt="{{ $product->name }}" loading="lazy" decoding="async">

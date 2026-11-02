@@ -2,6 +2,8 @@ import Alpine from 'alpinejs';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
+document.documentElement.classList.add('js');
+
 window.Alpine = Alpine;
 Alpine.start();
 
