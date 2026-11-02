@@ -4,6 +4,7 @@
     @include('partials.head')
 </head>
 <body>
+    <a class="skip-link" href="#content">Skip to content</a>
     @include('partials.loader')
     @include('partials.header')
     <main id="content">

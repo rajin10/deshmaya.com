@@ -1,23 +1,50 @@
-{{-- Phase 1 shell. Final design applied in Phase 5. Empty settings hide automatically. --}}
-<footer class="bg-primary-dark text-white/85">
-    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
-        <div>
-            <p class="font-heading text-2xl text-white">{{ setting('general.site_name', 'Deshmaya') }}</p>
-            @if($t = setting('general.tagline'))<p class="mt-1 text-sm">{{ $t }}</p>@endif
-            @if($f = setting('general.footer_text'))<p class="mt-4 text-sm">{{ $f }}</p>@endif
+<footer class="site-footer">
+    <div class="container-shell site-footer__main">
+        <div class="site-footer__brand">
+            <a href="{{ route('home') }}" class="brand-lockup brand-lockup--footer">
+                @if($logo = setting_url('general.logo'))
+                    <img src="{{ $logo }}" alt="{{ setting('general.site_name', 'Deshmaya') }}" class="brand-lockup__image" width="172" height="48" loading="lazy">
+                @else
+                    <span class="brand-lockup__mark" aria-hidden="true">D</span>
+                    <span class="brand-lockup__text"><strong>{{ setting('general.site_name', 'Deshmaya') }}</strong><small>Global Agri Exporter</small></span>
+                @endif
+            </a>
+            @if($tagline = setting('general.tagline'))<p class="site-footer__tagline">{{ $tagline }}</p>@endif
+            @if($footerText = setting('general.footer_text'))<p class="site-footer__copy">{{ $footerText }}</p>@else<p class="site-footer__copy">Fresh agricultural products, sourced in Bangladesh and prepared for global markets.</p>@endif
         </div>
-        <div class="space-y-2 text-sm">
-            @if($v = setting('contact.address'))<p>{{ $v }}</p>@endif
-            @if($v = setting('contact.phone_primary'))<p><a href="tel:{{ preg_replace('/[^\d+]/', '', $v) }}" class="hover:text-white">{{ $v }}</a></p>@endif
-            @if($v = setting('contact.email_primary'))<p><a href="mailto:{{ $v }}" class="hover:text-white">{{ $v }}</a></p>@endif
+
+        <div class="site-footer__column">
+            <h2>Explore</h2>
+            <nav aria-label="Footer navigation">
+                @foreach(config('site.menu') as $item)
+                    @if($item['enabled'] && $item['route'])
+                        <a href="{{ route($item['route']) }}">{{ $item['label'] }}</a>
+                    @endif
+                @endforeach
+            </nav>
         </div>
-        <div class="flex flex-wrap gap-4 text-sm">
-            @foreach(['facebook','instagram','linkedin','youtube','x','tiktok'] as $s)
-                @if($u = setting("social.$s"))<a href="{{ $u }}" target="_blank" rel="noopener" class="capitalize hover:text-white">{{ $s }}</a>@endif
-            @endforeach
+
+        <div class="site-footer__column">
+            <h2>Get in touch</h2>
+            <div class="site-footer__contact">
+                @if($address = setting('contact.address'))<p>{{ $address }}</p>@endif
+                @if($phone = setting('contact.phone_primary'))<a href="tel:{{ preg_replace('/[^\d+]/', '', $phone) }}">{{ $phone }}</a>@endif
+                @if($email = setting('contact.email_primary'))<a href="mailto:{{ $email }}">{{ $email }}</a>@endif
+                <a class="site-footer__quote" href="{{ route('request-quote') }}">Request a Quote <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="social-links social-links--footer">
+                @foreach(['facebook','instagram','linkedin','youtube','x','tiktok'] as $network)
+                    @if($url = setting("social.$network"))
+                        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ ucfirst($network) }}">{{ strtoupper(substr($network, 0, 1)) }}</a>
+                    @endif
+                @endforeach
+            </div>
         </div>
     </div>
-    <div class="border-t border-white/10 py-4 text-center text-xs">
-        {{ setting('general.copyright_text') ?: '© '.date('Y').' '.setting('general.site_name', 'Deshmaya').'. All rights reserved.' }}
+    <div class="site-footer__bottom">
+        <div class="container-shell">
+            <p>{{ setting('general.copyright_text') ?: '© '.date('Y').' '.setting('general.site_name', 'Deshmaya').'. All rights reserved.' }}</p>
+            <a href="{{ route('contact') }}">Contact our team</a>
+        </div>
     </div>
 </footer>

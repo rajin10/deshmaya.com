@@ -26,11 +26,12 @@ Build the Deshmaya export business website in Laravel, matching the supplied des
 3. Our Products (listing, category filter)
 4. Dynamic Single Product (/products/{slug})
 5. Certification
-6. How We Export
-7. Export Markets
-8. Contact Us
-9. Request a Quote (supports prefilled product via ?product=slug)
-Home, About Us, Certification, How We Export, Export Markets text/content are fixed in Blade templates (not editable from admin). Products, categories, brand colors, business info, loader and form data are dynamic.
+6. Quality & Packaging
+7. How We Export
+8. Export Markets
+9. Contact Us
+10. Request a Quote (supports prefilled product via ?product=slug)
+Home, About Us, Certification, Quality & Packaging, How We Export, Export Markets text/content are fixed in Blade templates (not editable from admin). Products, categories, brand colors, business info, loader and form data are dynamic.
 Global: header, footer, loader, 404/500, sitemap.xml, robots.txt, SEO meta + OpenGraph per page.
 
 ## 6. Admin dashboard modules
@@ -70,7 +71,7 @@ Global: header, footer, loader, 404/500, sitemap.xml, robots.txt, SEO meta + Ope
 - Performance targets met on production.
 
 ## 10. Assumptions / dependencies
-- Final designs are supplied page by page, in order: Home, About, Products, then the rest.
+- A composite final mockup for the shared shell and all public pages was supplied on 2026-11-02. Original photography and individual responsive frames are pending; until supplied, the site marks photo slots as temporary placeholders and responsive details are inferred from the composite.
 - Hosting is cPanel (shared/VPS with cPanel). See docs/DEPLOYMENT_CPANEL.md.
 - Admin panel is built with Filament.
 - Open questions tracked in docs/DECISIONS.md.

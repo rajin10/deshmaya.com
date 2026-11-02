@@ -55,28 +55,28 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 - [x] Dashboard home: counts of new messages/quotes and latest submissions
       DoD: submitted data shows in admin; spam protections tested.
 
-## Phase 5 - Frontend Shell and Components (CURRENT - waiting for design system)
+## Phase 5 - Frontend Shell and Components
 
-(needs design system: typography, buttons, cards, spacing)
-
-- [ ] Final header/footer from design (dynamic data)
-- [ ] Loader final design
-- [ ] Shared components: button, section heading, product card, category chip, form fields, CTA band
-- [ ] Animation kit: scroll reveal, hover effects, page transitions
+- [x] Final header/footer from supplied mockup (dynamic business data)
+- [x] Loader styling using the configured brand palette and logo
+- [x] Shared components/styles: buttons, section headings, product cards, category chips, form fields, CTA bands
+- [x] Animation kit: scroll reveal, hover effects, smooth scrolling, reduced-motion support, page transitions
       DoD: shell matches design at all breakpoints; components documented in ARCHITECTURE.md.
 
-## Phase 6 - Pages (in this order, one by one, per PAGE_WORKFLOW.md)
+## Phase 6 - Pages (CURRENT - mockup implemented; photography and visual QA pending)
 
-- [ ] 6.1 Home
-- [ ] 6.2 About Us
-- [ ] 6.3 Our Products (listing + category filter)
-- [ ] 6.4 Dynamic Single Product
-- [ ] 6.5 Certification
-- [ ] 6.6 How We Export
-- [ ] 6.7 Export Markets
-- [ ] 6.8 Contact Us
-- [ ] 6.9 Request a Quote
+- [~] 6.1 Home
+- [~] 6.2 About Us
+- [~] 6.3 Our Products (listing + category filter)
+- [~] 6.4 Dynamic Single Product
+- [~] 6.5 Certification
+- [~] 6.6 How We Export
+- [~] 6.7 Export Markets
+- [~] 6.8 Contact Us
+- [~] 6.9 Request a Quote
+- [~] Quality & Packaging (additional page shown in the supplied mockup)
       DoD per page: PAGE_WORKFLOW.md checklist fully ticked.
+      Note: The supplied design is a single composite image. Layouts are implemented from it; labeled photo placeholders remain until original photography is supplied. Responsive and page-by-page visual comparison is still pending.
 
 ## Phase 7 - Performance, QA, SEO
 

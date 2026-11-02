@@ -1,97 +1,105 @@
 @extends('layouts.app')
 @section('title', 'Request a Quote')
+@section('description', 'Request pricing and availability for fresh produce and agricultural products from Bangladesh.')
 @section('content')
-<section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-    <div class="text-center">
-        <h1 class="font-heading text-4xl text-primary-dark" data-reveal>Request a Quote</h1>
-        <p class="mt-3 text-muted" data-reveal style="--reveal-delay:120ms">Tell us what you need and our export team will prepare a quote.</p>
-    </div>
+<x-page-banner title="Request a Quote" subtitle="Tell us what your business needs." tone="produce" />
 
-    <div class="mt-10 rounded-xl border border-line bg-white p-6 shadow-sm sm:p-8">
-        @if (session('status'))
-            <p role="status" class="mb-6 rounded-md border border-green-200 bg-green-50 p-4 text-green-800">{{ session('status') }}</p>
-        @endif
-        @if ($errors->any())
-            <div role="alert" class="mb-6 rounded-md border border-red-200 bg-red-50 p-4 text-red-800">
-                Please review the highlighted fields and try again.
+<section class="section-shell">
+    <div class="container-shell quote-layout">
+        <aside class="quote-intro">
+            <p class="eyebrow">Let’s work together</p>
+            <h2>Tell us about your requirements.</h2>
+            <p>Share the product, quantity and destination you have in mind. Our export team will review your request and follow up with availability and next steps.</p>
+            <x-image-placeholder class="quote-intro__image" label="Fresh export produce photography pending" tone="produce" />
+            <div class="quote-points">
+                <p><span aria-hidden="true">✓</span> Product and seasonal availability</p>
+                <p><span aria-hidden="true">✓</span> Buyer-specific packing options</p>
+                <p><span aria-hidden="true">✓</span> Clear export coordination</p>
             </div>
-        @endif
+        </aside>
 
-        <form method="POST" action="{{ route('request-quote.submit') }}" class="space-y-5">
-            @csrf
-            <div class="absolute -left-[10000px]" aria-hidden="true">
-                <label for="quote-website">Leave this field empty</label>
-                <input id="quote-website" type="text" name="website" tabindex="-1" autocomplete="off">
-            </div>
+        <div class="form-panel form-panel--quote">
+            <div class="form-panel__heading"><p class="eyebrow">Buyer inquiry form</p><h2>Quote Request</h2><p>Fields marked <span aria-hidden="true">*</span> are required.</p></div>
+            @if (session('status'))
+                <p role="status" class="form-alert form-alert--success">{{ session('status') }}</p>
+            @endif
+            @if ($errors->any())
+                <div role="alert" class="form-alert form-alert--error">Please review the highlighted fields and try again.</div>
+            @endif
 
-            <div>
-                <label for="quote-name" class="mb-1 block text-sm font-medium text-ink">Name</label>
-                <input id="quote-name" name="name" value="{{ old('name') }}" required maxlength="120" autocomplete="name" class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                @error('name')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="quote-company" class="mb-1 block text-sm font-medium text-ink">Company <span class="text-muted">(optional)</span></label>
-                <input id="quote-company" name="company" value="{{ old('company') }}" maxlength="180" autocomplete="organization" class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                @error('company')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="quote-email" class="mb-1 block text-sm font-medium text-ink">Email</label>
-                <input id="quote-email" type="email" name="email" value="{{ old('email') }}" required maxlength="254" autocomplete="email" class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                @error('email')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="quote-phone" class="mb-1 block text-sm font-medium text-ink">Phone <span class="text-muted">(optional)</span></label>
-                <input id="quote-phone" type="tel" name="phone" value="{{ old('phone') }}" maxlength="50" autocomplete="tel" class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                @error('phone')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="quote-country" class="mb-1 block text-sm font-medium text-ink">Country</label>
-                <input id="quote-country" name="country" value="{{ old('country') }}" required maxlength="100" autocomplete="country-name" class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                @error('country')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="quote-product" class="mb-1 block text-sm font-medium text-ink">Product <span class="text-muted">(optional)</span></label>
-                <select id="quote-product" name="product_id" class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                    <option value="">Select a product</option>
-                    @foreach ($products as $product)
-                        <option value="{{ $product->id }}" @selected((string) old('product_id', $selectedProductId) === (string) $product->id)>{{ $product->name }}</option>
-                    @endforeach
-                </select>
-                @error('product_id')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-            <div class="grid gap-5 sm:grid-cols-2">
-                <div>
-                    <label for="quote-quantity" class="mb-1 block text-sm font-medium text-ink">Quantity</label>
-                    <input id="quote-quantity" type="number" name="quantity" value="{{ old('quantity') }}" min="0.001" step="0.001" required class="w-full rounded-md border border-line px-3 py-2 text-ink">
-                    @error('quantity')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
+            <form method="POST" action="{{ route('request-quote.submit') }}" class="form-grid">
+                @csrf
+                <div class="honeypot-field" aria-hidden="true">
+                    <label for="quote-website">Leave this field empty</label>
+                    <input id="quote-website" type="text" name="website" tabindex="-1" autocomplete="off">
                 </div>
-                <div>
-                    <label for="quote-unit" class="mb-1 block text-sm font-medium text-ink">Unit</label>
-                    <select id="quote-unit" name="unit" required class="w-full rounded-md border border-line px-3 py-2 text-ink">
+                <div class="form-field">
+                    <label for="quote-name">Full Name <span aria-hidden="true">*</span></label>
+                    <input id="quote-name" name="name" value="{{ old('name') }}" required maxlength="120" autocomplete="name" placeholder="Your full name" @error('name') aria-invalid="true" @enderror>
+                    @error('name')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-company">Company Name <span class="field-optional">(Optional)</span></label>
+                    <input id="quote-company" name="company" value="{{ old('company') }}" maxlength="180" autocomplete="organization" placeholder="Your company">
+                    @error('company')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-email">Email Address <span aria-hidden="true">*</span></label>
+                    <input id="quote-email" type="email" name="email" value="{{ old('email') }}" required maxlength="254" autocomplete="email" placeholder="you@company.com" @error('email') aria-invalid="true" @enderror>
+                    @error('email')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-phone">Phone Number <span class="field-optional">(Optional)</span></label>
+                    <input id="quote-phone" type="tel" name="phone" value="{{ old('phone') }}" maxlength="50" autocomplete="tel" placeholder="+880 1XXX XXXXXX">
+                    @error('phone')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-country">Destination Country <span aria-hidden="true">*</span></label>
+                    <input id="quote-country" name="country" value="{{ old('country') }}" required maxlength="100" autocomplete="country-name" placeholder="Where should we ship?" @error('country') aria-invalid="true" @enderror>
+                    @error('country')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-product">Product <span class="field-optional">(Optional)</span></label>
+                    <select id="quote-product" name="product_id" @error('product_id') aria-invalid="true" @enderror>
+                        <option value="">Select a product</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}" @selected((string) old('product_id', $selectedProductId) === (string) $product->id)>{{ $product->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('product_id')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-quantity">Estimated Quantity <span aria-hidden="true">*</span></label>
+                    <input id="quote-quantity" type="number" name="quantity" value="{{ old('quantity') }}" min="0.001" step="0.001" required placeholder="e.g. 500" @error('quantity') aria-invalid="true" @enderror>
+                    @error('quantity')<p class="field-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="quote-unit">Unit <span aria-hidden="true">*</span></label>
+                    <select id="quote-unit" name="unit" required @error('unit') aria-invalid="true" @enderror>
                         @foreach (['kg' => 'Kilograms', 'tonnes' => 'Tonnes', 'cartons' => 'Cartons', 'containers' => 'Containers'] as $value => $label)
                             <option value="{{ $value }}" @selected(old('unit', 'kg') === $value)>{{ $label }}</option>
                         @endforeach
                     </select>
-                    @error('unit')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
+                    @error('unit')<p class="field-error">{{ $message }}</p>@enderror
                 </div>
-            </div>
-            <div>
-                <label for="quote-message" class="mb-1 block text-sm font-medium text-ink">Additional details <span class="text-muted">(optional)</span></label>
-                <textarea id="quote-message" name="message" rows="5" maxlength="5000" class="w-full rounded-md border border-line px-3 py-2 text-ink">{{ old('message') }}</textarea>
-                @error('message')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
-            </div>
-
-            @if ($turnstileSiteKey)
-                <div>
-                    <div class="cf-turnstile" data-sitekey="{{ $turnstileSiteKey }}"></div>
-                    @error('cf-turnstile-response')<p class="mt-1 text-sm text-red-700">{{ $message }}</p>@enderror
+                <div class="form-field form-field--full">
+                    <label for="quote-message">Additional Details <span class="field-optional">(Optional)</span></label>
+                    <textarea id="quote-message" name="message" rows="4" maxlength="5000" placeholder="Product specifications, timing or other requirements...">{{ old('message') }}</textarea>
+                    @error('message')<p class="field-error">{{ $message }}</p>@enderror
                 </div>
-            @elseif (app()->isProduction())
-                <p role="alert" class="text-sm text-red-700">Online form security is not configured. Please contact us using the details in the footer.</p>
-            @endif
-
-            <button type="submit" class="rounded-md bg-primary px-5 py-3 font-medium text-white transition hover:bg-primary-dark">Send quote request</button>
-        </form>
+                @if ($turnstileSiteKey)
+                    <div class="form-field form-field--full">
+                        <div class="cf-turnstile" data-sitekey="{{ $turnstileSiteKey }}"></div>
+                        @error('cf-turnstile-response')<p class="field-error">{{ $message }}</p>@enderror
+                    </div>
+                @elseif (app()->isProduction())
+                    <p role="alert" class="field-error form-field--full">Online form security is not configured. Please contact us using the details in the footer.</p>
+                @endif
+                <div class="form-field--full">
+                    <button type="submit" class="button button--primary button--wide">Submit Quote Request <span aria-hidden="true">→</span></button>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 @endsection
