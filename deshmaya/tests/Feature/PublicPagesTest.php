@@ -111,11 +111,14 @@ class PublicPagesTest extends TestCase
 
     public function test_custom_not_found_and_server_error_views_render(): void
     {
-        $this->get('/page-that-does-not-exist')
+        $notFound = $this->get('/page-that-does-not-exist')
             ->assertNotFound()
             ->assertSee('Page not found');
+        $this->assertSame(1, preg_match_all('/<h1(?:\s|>)/i', $notFound->getContent()));
 
-        $this->assertStringContainsString('Something went wrong', view('errors.500')->render());
+        $serverError = view('errors.500')->render();
+        $this->assertStringContainsString('Something went wrong', $serverError);
+        $this->assertSame(1, preg_match_all('/<h1(?:\s|>)/i', $serverError));
     }
 
     public function test_products_list_and_single_product_details_are_dynamic(): void

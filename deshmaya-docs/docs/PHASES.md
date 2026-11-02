@@ -93,7 +93,7 @@ Backend phases (0-4) do not need page designs. Phase 6 implementation may use th
       DoD: all targets in PRD section 8 met.
       Phase 6 dependency: approved photography and responsive design frames are still needed for final visual sign-off and meaningful image-weight/Lighthouse validation. Phase 7 has started in parallel by request; Phase 6 remains open.
       Remaining QA includes Lighthouse on every page after final media, iOS/Android/desktop browser matrix, keyboard/screen-reader/contrast checks, production sitemap/schema checks, security review, and cPanel 4K upload stress test using confirmed server limits.
-      Current validation: 41 tests / 266 assertions pass; production asset build and targeted Pint pass. No source images were present, so the build optimized 0 images; this is not a Lighthouse result.
+      Current validation: 41 tests / 268 assertions pass after adding semantic H1s to the branded 404/500 pages; production asset build and targeted Pint pass. No source images were present, so the build optimized 0 images; this is not a Lighthouse result.
       Local browser audit after Phase 7: 13 public route variants x 8 widths (360, 390, 768, 1024, 1280, 1440, 1920, 2560) = 104 checks; all HTTP 200, exactly one H1, no horizontal overflow or unnamed links/buttons/placeholders. All 26 unique internal URLs returned successfully; desktop nav links, product/category/quote CTA, mobile menu + Escape, form required-field blocking/labels, robots/sitemap, Product/Organization schema, and branded 404 were checked. This is a local Chromium smoke check, not cross-device, visual, Lighthouse, or production sign-off.
       Local HTTP responses include `X-Powered-By: PHP/8.3.36`; verify/suppress this server-level header in production. HSTS is intentionally absent over local HTTP and still needs verification on the real HTTPS host.
       Existing upload limits found: category/product media 10 MiB per file (gallery up to 20 files), logo/favicon/loader 4 MiB, and Open Graph image 8 MiB. Confirm these against cPanel PHP/web-server limits and the approved 4K originals before the upload stress test.
@@ -121,7 +121,7 @@ Do not treat the started Phase 7 code as complete or production-ready. Current P
 
 ### Then: finish Phase 7
 
-1. Run automated tests, production asset build, Pint, and `git diff --check`; retain the current baseline of 41 tests / 266 assertions unless tests intentionally change.
+1. Run automated tests, production asset build, Pint, and `git diff --check`; retain the current baseline of 41 tests / 268 assertions unless tests intentionally change.
 2. With the final media and production-like URL configured, run Lighthouse mobile and desktop on every public page and product/category route. Record Performance score and LCP, CLS, INP; meet PRD targets (Performance >= 90, LCP < 2.5s, CLS < 0.1, INP < 200ms). Fix and retest failures.
 3. Verify `robots.txt`, XML sitemap syntax/content, canonical URLs, Organization/Product JSON-LD, OG images, and 404/500 behavior on staging/production-like host. Ensure sitemap contains only active public pages/products/categories and that its URLs use the canonical host.
 4. Test current Chrome/Edge/Firefox and Safari where available, including iOS Safari and Android Chrome, at the relevant device sizes. Record browser/device/OS and failures.
