@@ -28,7 +28,6 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 - [x] Base layout: head/SEO partial, header/footer shells, loader shell, smooth scroll, animation utilities
       DoD: changing a setting in DB changes layout output; a test image renders responsive and lazy.
 
-## Phase 2 - Admin Core (CURRENT)
 ## Phase 2 - Admin Core
 
 - [x] Admin auth + seeded super admin (account created locally; credentials remain untracked)
@@ -47,16 +46,16 @@ Backend phases (0-4) do not need page designs. Page phases (6.x) start only when
 - [x] Seeders with sample categories/products
       DoD: admin can add/edit/delete categories and products; data available through query scopes.
 
-## Phase 4 - Forms and Submissions (CURRENT)
+## Phase 4 - Forms and Submissions
 
-- [ ] contact_messages + quote_requests tables/models
-- [ ] Form request validation, honeypot, throttle, captcha
-- [ ] Mail notification to admin (queue)
-- [ ] Admin lists: search, filter, status, view, delete, CSV export
-- [ ] Dashboard home: counts of new messages/quotes
+- [x] contact_messages + quote_requests tables/models
+- [x] Form request validation, honeypot, throttle, captcha
+- [x] Mail notification to admin (queue)
+- [x] Admin lists: search, filter, status, view, delete, CSV export
+- [x] Dashboard home: counts of new messages/quotes and latest submissions
       DoD: submitted data shows in admin; spam protections tested.
 
-## Phase 5 - Frontend Shell and Components
+## Phase 5 - Frontend Shell and Components (CURRENT - waiting for design system)
 
 (needs design system: typography, buttons, cards, spacing)
 

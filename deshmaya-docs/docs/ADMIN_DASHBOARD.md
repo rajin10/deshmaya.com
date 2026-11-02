@@ -4,6 +4,10 @@ Filament resources: Category, Product, ContactMessage, QuoteRequest.
 Filament custom settings pages: Brand Colors, Business and Connect Info, Loader, SEO.
 Dashboard widgets: new messages count, new quotes count, latest submissions.
 
+Contact and quote submissions are stored in their respective resources. Admins can search by submitter and submission details, filter by status and received date, inspect full records, update their status, delete individual or bulk selections, and export the filtered results as CSV. Exported visitor-provided text is protected against spreadsheet formula execution.
+
+Public forms use Cloudflare Turnstile. Set `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` in the application environment; production submissions fail closed if verification is unavailable or either key is missing. For local development and automated tests only, Turnstile verification is optional when both keys are unset. Configure the admin recipient under Business & Connect Info → Mail; `MAIL_FROM_ADDRESS` is the fallback recipient. Notifications and CSV exports use the configured queue and require the queue worker/cron to be running.
+
 ## Settings groups and keys
 
 brand: primary, primary_dark, secondary, accent, background, surface, text, text_muted, border, success, danger (all hex)
