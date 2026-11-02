@@ -43,6 +43,66 @@ Provide approved/licensed originals and identify the intended page/slot. Keep or
 | Contact Us | Approved map artwork or confirmed location/map embed requirements | Map placeholder |
 | Request a Quote | Fresh export produce | Placeholder |
 
+## Recommended image handoff checklist
+
+The dimensions below are recommended source sizes based on the current layout, not final pixel-perfect crop specifications. Individual responsive design frames have not been supplied yet, so keep the main subject away from the edges and allow `cover` crops. Provide licensed originals; do not create or imply certifications Deshmaya does not hold.
+
+### Fixed page photography and artwork
+
+Place these source files under `deshmaya/resources/images/` using the exact lowercase filenames shown. Static images are not wired into the page placeholders yet; after delivery, connect each asset to its page, build responsive variants, and run visual QA.
+
+| Page/section | Source filename (relative to `resources/images/`) | Recommended source size |
+|---|---|---:|
+| Home hero, desktop | `home/hero-harvest.jpg` | 2560 x 1440 |
+| Home hero, optional mobile crop | `home/hero-harvest-mobile.jpg` | 1080 x 1440 |
+| Home grower feature | `home/farmer-grower.jpg` | 1920 x 1440 |
+| Home export feature | `home/export-shipment.jpg` | 1920 x 1440 |
+| About Us banner | `banners/about.jpg` | 2560 x 900 |
+| About Us feature | `about/farmer-selecting-produce.jpg` | 1920 x 1440 |
+| Products listing banner | `banners/products.jpg` | 2560 x 900 |
+| Product detail banner (shared by product detail pages) | `banners/product-detail.jpg` | 2560 x 900 |
+| Certification banner | `banners/certifications.jpg` | 2560 x 900 |
+| Quality & Packaging banner | `banners/quality-packaging.jpg` | 2560 x 900 |
+| Quality process: Sorting | `quality/sorting.jpg` | 1600 x 1200 |
+| Quality process: Grading | `quality/grading.jpg` | 1600 x 1200 |
+| Quality process: Cleaning | `quality/cleaning.jpg` | 1600 x 1200 |
+| Quality process: Packing | `quality/packing.jpg` | 1600 x 1200 |
+| How We Export banner | `banners/how-we-export.jpg` | 2560 x 900 |
+| How We Export shipment feature | `export/shipment-promise.jpg` | 2560 x 1440 |
+| Export Markets banner | `banners/export-markets.jpg` | 2560 x 900 |
+| Export Markets map artwork | `maps/export-markets.svg` (preferred) or `.png` | SVG viewBox / PNG 1600 x 1000 |
+| Contact Us banner | `banners/contact.jpg` | 2560 x 900 |
+| Contact location artwork (only if not using an embedded map) | `maps/contact-location.png` | 1600 x 1000 |
+| Request a Quote banner | `banners/request-quote.jpg` | 2560 x 900 |
+| Request a Quote side feature | `quote/fresh-export-produce.jpg` | 1920 x 1440 |
+
+Photos can be JPG, PNG, or WebP. The local image build generates AVIF/WebP variants at widths 480, 768, 1024, 1440, 1920, and 2560 pixels; a 4K master is welcome, but generated variants currently top out at 2560 pixels. Keep the focal subject clear of overlay text. For the home hero, the mobile crop is optional and needs responsive image wiring after the mobile design frame is confirmed.
+
+### Images uploaded through the admin
+
+These are dynamic media, not files to place in `resources/images/`. Keep the suggested names when handing them over, then upload them through the corresponding Filament admin form. Current upload limits are per file.
+
+| Admin section | Suggested handoff filename | Recommended source size | Current limit |
+|---|---|---:|---:|
+| Business & Connect Info: light logo | `branding/logo-light.png` | 1200 x 340, transparent | 4 MiB |
+| Business & Connect Info: dark logo | `branding/logo-dark.png` | 1200 x 340, transparent | 4 MiB |
+| Business & Connect Info: favicon | `branding/favicon.png` | 512 x 512 | 4 MiB |
+| Loader settings: image (optional; logo can be reused) | `branding/loader-logo.png` | 800 x 240, transparent | 4 MiB |
+| SEO Defaults: Open Graph image | `branding/og-default.jpg` | 1200 x 630 | 8 MiB |
+| Categories: one image per active category (currently Fruits and Vegetables) | `categories/<category-slug>.jpg` | 1920 x 1200 | 10 MiB |
+| Products: one featured image for each real product | `products/<product-slug>-featured.jpg` | 2048 x 1536 | 10 MiB |
+| Products: gallery, ideally five views per real product | `products/<product-slug>-gallery-01.jpg` through `-05.jpg` | 1600 x 1200 each | 10 MiB each; up to 20 files |
+
+The admin creates responsive previews for category/product media (640 x 480). Use real, approved product photos and accurate alt text; do not use the sample catalog as a substitute for the final product list. If the Contact page should show a live map, provide the approved Google Maps embed URL instead of `maps/contact-location.png`; the current Contact template still needs to be wired to render the existing map setting.
+
+### Shared file/quality notes
+
+- The project source directory is `deshmaya/resources/images/`; static page photos do not appear automatically when copied there. They must be connected to the Blade sections and built before they display.
+- Use descriptive filenames exactly as listed, lowercase with hyphens; keep a copy of each original.
+- Admin upload limits are hard caps. For the best loading speed, compress photos before upload and keep files comfortably below those caps.
+- `logo_dark` is available as an admin field, but the current header/footer templates have not yet been wired to select the matching logo variant. Hold both logo variants if convenient; use the standard `logo` until that display behavior is updated.
+- Certification artwork is not required unless Deshmaya supplies genuine, currently valid certificates and approves their publication.
+
 ## Pending visual references
 
 - Supply individual page/section design frames for desktop, laptop/tablet, and mobile breakpoints (or specify the exact widths represented by each frame).
