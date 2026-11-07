@@ -2,14 +2,10 @@
 @section('title', 'Fresh Produce from Bangladesh')
 @section('description', 'Premium fruits, vegetables and agricultural products, responsibly sourced in Bangladesh and delivered to global markets.')
 @section('content')
-<section class="section-shell" id="categories">
+<section class="section-shell home-produce-section" id="categories">
     <div class="container-shell">
-        <x-section-heading eyebrow="From farm to market" title="Explore Our Produce" description="Browse fresh, export-ready products from our growing selection." center />
         @if($carouselProducts->isNotEmpty())
             <div class="produce-marquee" aria-label="Browse our produce">
-                <div class="produce-marquee__controls">
-                    <button class="produce-marquee__toggle" type="button" data-produce-marquee-toggle aria-label="Pause automatic produce scrolling" aria-pressed="false">Pause</button>
-                </div>
                 <div class="produce-marquee__viewport">
                     <div class="produce-marquee__track" style="--produce-marquee-duration: {{ max(22, $carouselProducts->count() * 4) }}s">
                         @for($copy = 0; $copy < 2; $copy++)
@@ -35,6 +31,9 @@
         @else
             <p class="empty-state">Our product collection is being prepared. Please check back soon.</p>
         @endif
+        <div class="home-produce-heading">
+            <x-section-heading eyebrow="From farm to market" title="Explore Our Produce" description="Browse fresh, export-ready products from our growing selection." center />
+        </div>
     </div>
 </section>
 

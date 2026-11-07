@@ -9,18 +9,6 @@ Alpine.start();
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-document.querySelectorAll('[data-produce-marquee-toggle]').forEach((toggle) => {
-    const marquee = toggle.closest('.produce-marquee');
-    if (!marquee) return;
-
-    toggle.addEventListener('click', () => {
-        const isPaused = marquee.classList.toggle('is-paused');
-        toggle.setAttribute('aria-pressed', String(isPaused));
-        toggle.setAttribute('aria-label', `${isPaused ? 'Resume' : 'Pause'} automatic produce scrolling`);
-        toggle.textContent = isPaused ? 'Resume' : 'Pause';
-    });
-});
-
 const handleProduceImageError = (image) => {
     if (image.dataset.fallbackSrc && image.dataset.fallbackAttempted !== 'true') {
         image.dataset.fallbackAttempted = 'true';

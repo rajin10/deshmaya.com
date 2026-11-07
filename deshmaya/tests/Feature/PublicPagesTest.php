@@ -40,10 +40,11 @@ class PublicPagesTest extends TestCase
 
         $html = $this->get(route('home'))
             ->assertOk()
-            ->assertSee('data-produce-marquee-toggle', false)
+            ->assertDontSee('data-produce-marquee-toggle', false)
             ->assertSee('Fresh Kiwi')
             ->assertSee(route('products.show', $product->slug), false)
             ->assertSee('picture-placeholder', false)
+            ->assertSeeInOrder(['class="produce-marquee"', 'Explore Our Produce'], false)
             ->getContent();
 
         $this->assertSame(2, preg_match_all('/class="produce-marquee__group"/', $html));
