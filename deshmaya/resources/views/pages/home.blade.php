@@ -71,22 +71,6 @@
         </div>
     </section>
 
-    <section class="section-shell section-shell--tint">
-        <div class="container-shell split-feature">
-            <div class="split-feature__copy">
-                <p class="eyebrow">Rooted in Bangladesh</p>
-                <h2>Connecting Bangladesh’s Agriculture with the World</h2>
-                <p>Deshmaya is a Bangladesh-based agricultural export company focused on supplying high-quality fruits,
-                    vegetables and agricultural products to international buyers. We work with trusted farmers and suppliers
-                    to ensure freshness, quality and timely delivery.</p>
-                <a class="button button--primary" href="{{ route('about') }}">Read More <span
-                        aria-hidden="true">→</span></a>
-            </div>
-            <x-picture class="split-feature__image" src="/images/features/home-farm.jpg" alt="Bangladesh farm and growers"
-                sizes="(min-width: 1024px) 50vw, 100vw" />
-        </div>
-    </section>
-
     {{--
 <section class="section-shell">
     <div class="container-shell">
