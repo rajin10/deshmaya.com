@@ -145,6 +145,14 @@ class PublicPagesTest extends TestCase
             ->assertHeader('Strict-Transport-Security', 'max-age=31536000');
     }
 
+    public function test_uploaded_site_logo_is_used_across_public_pages(): void
+    {
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee('src="/images/logo.png"', false)
+            ->assertSee('"logo":"/images/logo.png"', false);
+    }
+
     public function test_custom_not_found_and_server_error_views_render(): void
     {
         $notFound = $this->get('/page-that-does-not-exist')
@@ -177,8 +185,22 @@ class PublicPagesTest extends TestCase
             'short_description' => 'Premium seasonal mangoes for export.',
             'description' => 'Selected and packed to buyer requirements.',
             'specs' => ['Origin' => 'Bangladesh'],
+            'sku' => 'MANGO-001',
+            'packaging_options' => [
+                ['name' => 'Carton Box', 'dimensions' => '60 x 40 x 15 cm'],
+            ],
+            'season_months' => [(string) now()->month],
+            'supplier_guide_title' => 'Mango Supplier Guide',
+            'supplier_guide_url' => 'https://example.com/mango-guide',
             'is_active' => true,
             'is_featured' => true,
+        ]);
+        $inSeasonProduct = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Seasonal Mango Variety',
+            'slug' => 'seasonal-mango-variety',
+            'season_months' => [(string) now()->month],
+            'is_active' => true,
         ]);
 
         $this->get(route('home'))
@@ -195,9 +217,96 @@ class PublicPagesTest extends TestCase
             ->assertOk()
             ->assertSee('Selected and packed to buyer requirements.')
             ->assertSee('Bangladesh')
-            ->assertSee(route('request-quote', ['product' => $product->slug]), false);
+            ->assertSee('MANGO-001')
+            ->assertSee('Packaging Options')
+            ->assertSee('Carton Box')
+            ->assertSee('60 x 40 x 15 cm')
+            ->assertSee('Season Calendar')
+            ->assertSee('In season now')
+            ->assertSee($inSeasonProduct->name)
+            ->assertSee('Mango Supplier Guide')
+            ->assertSee('https://example.com/mango-guide', false)
+            ->assertDontSee(route('request-quote', ['product' => $product->slug]), false);
 
+        $productResponse->assertDontSee('Demo content')
+            ->assertDontSee('Sample availability');
         $this->assertSame(1, preg_match_all('/<h1(?:\s|>)/i', $productResponse->getContent()));
+    }
+
+    public function test_products_without_detail_data_render_labeled_demo_content(): void
+    {
+        $parentCategory = Category::create([
+            'name' => 'Fresh Produce',
+            'slug' => 'fresh-produce',
+            'is_active' => true,
+        ]);
+        $category = Category::create([
+            'parent_id' => $parentCategory->id,
+            'name' => 'Vegetables',
+            'slug' => 'vegetables',
+            'is_active' => true,
+        ]);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Bottle Gourd',
+            'slug' => 'bottle-gourd',
+            'is_active' => true,
+        ]);
+        $otherProduct = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Sample Pumpkin',
+            'slug' => 'sample-pumpkin',
+            'is_active' => true,
+        ]);
+
+        $this->get(route('products.show', $product->slug))
+            ->assertOk()
+            ->assertSee('Demo content — confirm these sample details in Product admin before publishing.')
+            ->assertSee('Demo SKU:')
+            ->assertSee('DEMO-BOTTLEGOURD')
+            ->assertSee('Carton Box (Sample)')
+            ->assertSee('60 x 40 x 15 cm (sample)')
+            ->assertSee('Supplier Guide (Sample)')
+            ->assertSee('Sample / confirm availability')
+            ->assertSee($otherProduct->name);
+    }
+
+    public function test_product_listing_provides_admin_product_data_to_quick_view(): void
+    {
+        $parentCategory = Category::create([
+            'name' => 'Fresh Produce',
+            'slug' => 'fresh-produce',
+            'is_active' => true,
+        ]);
+        $category = Category::create([
+            'parent_id' => $parentCategory->id,
+            'name' => 'Vegetables',
+            'slug' => 'vegetables',
+            'is_active' => true,
+        ]);
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Bottle Gourd',
+            'slug' => 'bottle-gourd',
+            'short_description' => 'Fresh bottle gourd for export.',
+            'description' => 'Selected and packed to buyer requirements.',
+            'specs' => ['Packaging' => 'Carton boxes', 'Origin' => 'Bangladesh'],
+            'is_active' => true,
+        ]);
+
+        $this->get(route('products.index'))
+            ->assertOk()
+            ->assertSee('product-card--minimal', false)
+            ->assertSee('Quick View', false)
+            ->assertSee('openQuickView(', false)
+            ->assertSee('activeImage = (activeImage + 1) % images.length', false)
+            ->assertSee($product->name)
+            ->assertSee($product->description)
+            ->assertSee('Packaging')
+            ->assertSee('Carton boxes')
+            ->assertDontSee(route('request-quote', ['product' => $product->slug]), false)
+            ->assertDontSee('quoteUrl')
+            ->assertSee(route('products.show', $product->slug), false);
     }
 
     public function test_inactive_products_are_not_publicly_visible(): void
