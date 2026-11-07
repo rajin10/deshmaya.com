@@ -69,7 +69,7 @@
 .brand-lockup__text { display: grid; gap: 1px; color: var(--brand-primary-dark); line-height: 1; }
 .brand-lockup__text strong { font-size: 14px; letter-spacing: .025em; }
 .brand-lockup__text small { font-size: 8px; font-weight: 700; letter-spacing: .085em; }
-.site-nav { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 1.6vw, 24px); }
+.site-nav { display: flex; align-items: center; justify-content: center; gap: clamp(20px, 2vw, 32px); }
 .site-nav__link { position: relative; padding-block: 27px; color: color-mix(in srgb, var(--brand-text) 83%, white); font-size: 16px; font-weight: 600; text-transform: uppercase; white-space: nowrap; transition: color .2s ease; }
 .site-nav__link::after { position: absolute; right: 0; bottom: 17px; left: 0; height: 2px; transform: scaleX(0); transform-origin: left; background: var(--brand-accent); content: ''; transition: transform .2s ease; }
 .site-nav__link:hover { color: #000; }
