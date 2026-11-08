@@ -44,19 +44,29 @@
         </div>
     </section>
 
-    <section class="home-hero">
-        <x-picture class="home-hero__image" src="/images/homepage-banner.jpg" alt="" :eager="true" />
-        <div class="home-hero__shade"></div>
-        <div class="home-hero__content container-shell">
-            <p class="eyebrow text-white/85" data-reveal>Fresh from Bangladesh.</p>
-            <h1 data-reveal style="--reveal-delay:80ms">Delivered to the <span>World.</span></h1>
-            <p class="home-hero__copy" data-reveal style="--reveal-delay:140ms">Premium fruits, vegetables and agricultural
-                products, thoughtfully sourced for international markets.</p>
-            <div class="button-row" data-reveal style="--reveal-delay:200ms">
-                <a class="button button--primary" href="{{ route('products.index') }}">Explore Products <span
-                        aria-hidden="true">→</span></a>
-                <a class="button button--light" href="{{ route('request-quote') }}">Request a Quote</a>
+    <section class="section-shell home-film" aria-labelledby="home-film-title">
+        <div class="container-shell">
+            <div class="home-film__intro">
+                <p class="eyebrow" data-reveal>Fresh from Bangladesh.</p>
+                <h1 id="home-film-title" data-reveal style="--reveal-delay:80ms">Delivered to the World.</h1>
+                <p class="home-film__copy" data-reveal style="--reveal-delay:140ms">
+                    Premium fruits, vegetables and agricultural products, thoughtfully sourced for international markets.
+                </p>
             </div>
+            <figure class="home-film__media">
+                <video class="home-film__video" autoplay muted loop playsinline preload="auto"
+                    poster="{{ asset('images/homepage-banner.jpg') }}"
+                    aria-label="Farmer presenting freshly harvested produce">
+                    <source
+                        src="https://www.hatipoglutarim.com/wp-content/uploads/2021/10/pexels-rodnae-productions-7782528.mp4"
+                        type="video/mp4">
+                    Your browser does not support HTML video.
+                </video>
+                <figcaption class="home-film__caption">
+                    <span>Farm-to-market moments</span>
+                    <span>Video: Rodnae Productions / Pexels</span>
+                </figcaption>
+            </figure>
         </div>
     </section>
 
@@ -93,13 +103,46 @@
 </section>
 --}}
 
-    <section class="benefits-band">
+    <section class="benefits-band" aria-labelledby="benefits-band-title">
         <div class="container-shell">
-            <h2 class="benefits-band__title">From the field to shipping</h2>
-            <div class="benefit-grid">
-                @foreach ([['icon' => '♧', 'title' => 'Harvest', 'text' => 'Picked at the right stage'], ['icon' => '✓', 'title' => 'Quality check', 'text' => 'Checked against order requirements'], ['icon' => '▣', 'title' => 'Packaging', 'text' => 'Prepared to buyer specifications'], ['icon' => '❄', 'title' => 'Cold chain', 'text' => 'Temperature managed to protect freshness'], ['icon' => '↗', 'title' => 'Shipping', 'text' => 'Coordinated from order to delivery']] as $benefit)
-                    <article class="benefit-card">
-                        <span class="benefit-card__icon" aria-hidden="true">{{ $benefit['icon'] }}</span>
+            <p class="eyebrow benefits-band__eyebrow">Our export journey</p>
+            <h2 class="benefits-band__title" id="benefits-band-title">From the field to shipping</h2>
+            <div class="benefit-grid" role="list">
+                @foreach ([['icon' => 'harvest', 'title' => 'Harvest', 'text' => 'Picked at the right stage'], ['icon' => 'quality', 'title' => 'Quality check', 'text' => 'Checked against order requirements'], ['icon' => 'packaging', 'title' => 'Packaging', 'text' => 'Prepared to buyer specifications'], ['icon' => 'cold-chain', 'title' => 'Cold chain', 'text' => 'Temperature managed to protect freshness'], ['icon' => 'shipping', 'title' => 'Shipping', 'text' => 'Coordinated from order to delivery']] as $benefit)
+                    <article class="benefit-card" role="listitem">
+                        <span class="benefit-card__icon" aria-hidden="true">
+                            @switch($benefit['icon'])
+                                @case('harvest')
+                                    <svg viewBox="0 0 48 48" fill="none">
+                                        <path d="M24 37V18m0 8c0-8-5-13-13-13 0 8 5 13 13 13Zm0-4c0-7 5-12 13-12 0 8-5 12-13 12Z" />
+                                        <path d="M16 38h16" />
+                                    </svg>
+                                    @break
+                                @case('quality')
+                                    <svg viewBox="0 0 48 48" fill="none">
+                                        <path d="m24 7 15 6v11c0 9-6 14-15 18-9-4-15-9-15-18V13l15-6Z" />
+                                        <path d="m17 24 5 5 10-11" />
+                                    </svg>
+                                    @break
+                                @case('packaging')
+                                    <svg viewBox="0 0 48 48" fill="none">
+                                        <path d="m8 16 16-9 16 9v20l-16 8-16-8V16Z" />
+                                        <path d="m8 16 16 9 16-9M24 25v19M16 11l16 9" />
+                                    </svg>
+                                    @break
+                                @case('cold-chain')
+                                    <svg viewBox="0 0 48 48" fill="none">
+                                        <path d="M24 6v36M8.4 15l31.2 18M8.4 33l31.2-18M20 9l4 4 4-4M20 39l4-4 4 4M10 21l5 1-1-5m24 15-5-1 1 5m-24 0 5-1-1 5m24-15-5 1 1-5" />
+                                    </svg>
+                                    @break
+                                @case('shipping')
+                                    <svg viewBox="0 0 48 48" fill="none">
+                                        <path d="M7 14h22v21H7zM29 21h7l6 7v7H29z" />
+                                        <path d="M12 35a4 4 0 1 0 8 0m13 0a4 4 0 1 0 8 0M33 21v7h9M12 20h12M12 26h8" />
+                                    </svg>
+                                    @break
+                            @endswitch
+                        </span>
                         <h3>{{ $benefit['title'] }}</h3>
                         <p>{{ $benefit['text'] }}</p>
                     </article>
