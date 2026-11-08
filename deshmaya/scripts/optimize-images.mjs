@@ -10,6 +10,14 @@ const OUT = 'public/images';
 const WIDTHS = [480, 768, 1024, 1440, 1920, 2560];
 const RASTER = /\.(jpe?g|png|webp)$/i;
 
+try {
+    await fs.access(SRC);
+} catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    console.log(`Skipping image optimization: ${SRC} does not exist.`);
+    process.exit(0);
+}
+
 async function* walk(dir) {
     for (const e of await fs.readdir(dir, { withFileTypes: true })) {
         const p = path.join(dir, e.name);
