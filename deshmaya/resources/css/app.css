@@ -61,7 +61,7 @@
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 10000; transform: translateY(-160%); border-radius: 6px; background: var(--brand-primary-dark); padding: 10px 14px; color: white; }
 .skip-link:focus { transform: translateY(0); }
 
-.site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #e3e2e2; box-shadow: 1px 1px 1px #c9c9c9; background: color-mix(in srgb, white 96%, transparent); backdrop-filter: blur(14px); }
+.site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #e3e2e2; box-shadow: 0 3px 12px rgb(4 63 41 / .12); background: color-mix(in srgb, white 96%, transparent); backdrop-filter: blur(14px); transition: box-shadow .2s ease, background-color .2s ease; }
 .site-header__inner { display: flex; min-height: 72px; align-items: center; justify-content: space-between; gap: 18px; padding-inline: 40px; }
 .brand-lockup { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 9px; }
 .brand-lockup__image { display: block; width: auto; max-width: 190px; max-height: 62px; object-fit: contain; }
