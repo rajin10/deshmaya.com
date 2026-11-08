@@ -1,0 +1,142 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  test-and-deploy:
+    name: Test and Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      DEPLOY_APP_PATH: ${{ secrets.DEPLOY_APP_PATH }}
+      DEPLOY_PUBLIC_PATH: ${{ secrets.DEPLOY_PUBLIC_PATH }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      PUBLIC_HEALTH_URL: https://deshmaya.com
+      PHP_BINARY: php
+      COMPOSER_BINARY: composer
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: bcmath, gd, intl, mbstring, mysql, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: deshmaya/package-lock.json
+
+      - name: Validate deployment configuration
+        shell: bash
+        run: |
+          for name in SSH_HOST SSH_USER SSH_PORT SSH_PRIVATE_KEY DEPLOY_APP_PATH DEPLOY_PUBLIC_PATH; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required GitHub Actions secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Install PHP dependencies
+        working-directory: deshmaya
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare test environment
+        working-directory: deshmaya
+        run: |
+          cp .env.example .env
+          php artisan key:generate --force
+
+      - name: Run Laravel tests
+        working-directory: deshmaya
+        run: php artisan test
+
+      - name: Install frontend dependencies
+        working-directory: deshmaya
+        run: npm ci
+
+      - name: Build frontend assets
+        working-directory: deshmaya
+        run: npm run build
+
+      - name: Setup SSH
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          for attempt in 1 2 3 4 5; do
+            ssh-keyscan -T 10 -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null && break
+            echo "Host key scan attempt $attempt failed; retrying..."
+            sleep $((attempt * 3))
+          done
+
+      - name: Prepare server application directory
+        shell: bash
+        env:
+          SSH_OPTS: -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20
+        run: |
+          ssh $SSH_OPTS -i ~/.ssh/deploy_key -p "$SSH_PORT" \
+            "$SSH_USER@$SSH_HOST" \
+            "mkdir -p '$DEPLOY_APP_PATH' && mkdir -p '$DEPLOY_APP_PATH/storage/app/public' '$DEPLOY_APP_PATH/storage/framework/cache' '$DEPLOY_APP_PATH/storage/framework/sessions' '$DEPLOY_APP_PATH/storage/framework/views' '$DEPLOY_APP_PATH/storage/logs' '$DEPLOY_APP_PATH/bootstrap/cache'"
+
+      - name: Upload application release
+        shell: bash
+        env:
+          SSH_OPTS: -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20
+        run: |
+          rsync -az --delete \
+            --exclude='/.env' \
+            --exclude='/vendor/' \
+            --exclude='/node_modules/' \
+            --exclude='/storage/**' \
+            --exclude='/bootstrap/cache/**' \
+            --exclude='/database/database.sqlite' \
+            --exclude='/public/hot' \
+            -e "ssh $SSH_OPTS -i ~/.ssh/deploy_key -p '${{ secrets.SSH_PORT }}'" \
+            deshmaya/ \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_APP_PATH }}/"
+
+      - name: Upload public web root
+        shell: bash
+        env:
+          SSH_OPTS: -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20
+        run: |
+          rsync -az --delete \
+            --exclude='/hot' \
+            -e "ssh $SSH_OPTS -i ~/.ssh/deploy_key -p '${{ secrets.SSH_PORT }}'" \
+            deshmaya/public/ \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PUBLIC_PATH }}/"
+
+      - name: Install dependencies and activate release
+        shell: bash
+        env:
+          SSH_OPTS: -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20
+        run: |
+          ssh $SSH_OPTS -i ~/.ssh/deploy_key -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "cd '${{ secrets.DEPLOY_APP_PATH }}' && bash scripts/deploy.sh '${{ env.PHP_BINARY }}' '${{ env.COMPOSER_BINARY }}' '${{ secrets.DEPLOY_PUBLIC_PATH }}'"
+
+      - name: Verify production site
+        run: curl --fail --show-error --location --retry 5 --retry-delay 5 "${{ env.PUBLIC_HEALTH_URL }}"
