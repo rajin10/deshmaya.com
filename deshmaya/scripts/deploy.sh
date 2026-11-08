@@ -40,9 +40,7 @@ PHP
   ln -sfn "$(pwd)/storage/app/public" "$PUBLIC_PATH/storage"
 fi
 
-if [ ! -L public/storage ]; then
-  "$PHP_BINARY" artisan storage:link
-fi
+ln -sfn "$(pwd)/storage/app/public" public/storage
 "$PHP_BINARY" artisan package:discover --ansi
 "$PHP_BINARY" artisan migrate --force
 "$PHP_BINARY" artisan optimize:clear
