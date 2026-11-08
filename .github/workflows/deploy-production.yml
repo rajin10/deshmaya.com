@@ -65,10 +65,6 @@ jobs:
           cp .env.example .env
           php artisan key:generate --force
 
-      - name: Run Laravel tests
-        working-directory: deshmaya
-        run: php artisan test
-
       - name: Install frontend dependencies
         working-directory: deshmaya
         run: npm ci
@@ -76,6 +72,10 @@ jobs:
       - name: Build frontend assets
         working-directory: deshmaya
         run: npm run build
+
+      - name: Run Laravel tests
+        working-directory: deshmaya
+        run: php artisan test
 
       - name: Setup SSH
         shell: bash
