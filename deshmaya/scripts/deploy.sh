@@ -11,7 +11,8 @@ cd "$(dirname "$0")/.."
   --no-dev \
   --prefer-dist \
   --optimize-autoloader \
-  --no-interaction
+  --no-interaction \
+  --no-scripts
 
 mkdir -p storage/framework/{cache,data,sessions,views} storage/logs bootstrap/cache
 
@@ -42,6 +43,7 @@ fi
 if [ ! -L public/storage ]; then
   "$PHP_BINARY" artisan storage:link
 fi
+"$PHP_BINARY" artisan package:discover --ansi
 "$PHP_BINARY" artisan migrate --force
 "$PHP_BINARY" artisan optimize:clear
 "$PHP_BINARY" artisan optimize
